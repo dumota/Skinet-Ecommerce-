@@ -18,14 +18,30 @@ namespace Skinet_Infrastructure.Data
             _context = context;
         }
 
+        public async Task<IEnumerable<ProductBrand>> GetAllProductsBrandsAsync()
+        {
+            return await _context.ProductBrands.ToListAsync();
+        }
+
+        public async Task<IEnumerable<ProductType>> GetAllProductTypesAsync()
+        {
+           return await _context.ProductTypes.ToListAsync();
+        }
+
         public async Task<IEnumerable<Product>> GetAlProductsAsync()
         {
-            return await _context.Products.ToListAsync();
+            return await _context.Products
+                .Include(p => p.ProductType)
+                .Include(p => p.ProductBrand)
+                .ToListAsync();
         }
 
         public async Task<Product> GetProductById(int id)
         {
-            return await _context.Products.FindAsync(id);
+            return await _context.Products
+                .Include(p => p.ProductType)
+                .Include(p => p.ProductBrand)
+                .FirstOrDefaultAsync(p => p.Id == id);
         }
     }
 }

@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Skinet_API.Entities;
+
+using Skinet_Core.Entities;
 using Skinet_Core.Interfaces;
 using Skinet_Infrastructure.Data;
 
@@ -29,7 +30,22 @@ namespace Skinet_API.Controllers
         public async Task<ActionResult<Product>> GetProductById(int Id)
         {
             var userById = await _productRepository.GetProductById(Id);
+                
             return Ok(userById);
         }
+
+        [HttpGet("brands")]
+        public async Task<ActionResult<IEnumerable<ProductBrand>>> GetProductBrands()
+        {
+            return Ok(await _productRepository.GetAllProductsBrandsAsync());
+        }
+
+        [HttpGet("types")]
+        public async Task<ActionResult<IEnumerable<ProductType>>> GetProductType()
+        {
+            return Ok(await _productRepository.GetAllProductTypesAsync());
+        }
+
+
     }
 }

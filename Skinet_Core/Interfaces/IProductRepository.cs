@@ -11,5 +11,7 @@ namespace Skinet_Core.Interfaces
     {
         Task<Product> GetProductById(int id);
         Task<IEnumerable<Product>> GetAlProductsAsync();
+        Task<IEnumerable<ProductBrand>> GetAllProductsBrandsAsync();
+        Task<IEnumerable<ProductType>> GetAllProductTypesAsync();
     }
 }
