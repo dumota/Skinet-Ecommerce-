@@ -9,6 +9,7 @@ namespace Skinet_Core.Specifications
 {
     public interface ISpecification<T>
     {
+        //expressão LAMBDA
         Expression<Func<T,bool>> Criteria { get; }
         List<Expression<Func<T,object>>> Includes { get; }
     }
