@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Skinet_API.Errors;
 using Skinet_API.Helpers;
 using Skinet_API.Middleware;
 using Skinet_Core.Interfaces;
@@ -12,11 +14,30 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c=>
+{
+    c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Skinet API", Version = "V1" });
+});
 builder.Services.AddDbContext<StoreContext>(x => x.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddAutoMapper(typeof(MappingProfiles));
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.Configure<ApiBehaviorOptions>(opt =>
+{
+    opt.InvalidModelStateResponseFactory = ActionContext =>
+    {
+        var errors = ActionContext.ModelState
+        .Where(e => e.Value.Errors.Count > 0)
+        .SelectMany(x => x.Value.Errors)
+        .Select(x => x.ErrorMessage).ToArray();
+
+        var errorReposnse = new ApiValidationErroResponse
+        {
+            Errors = errors
+        };
+        return new BadRequestObjectResult(errorReposnse);
+    };
+});
 
 
 var app = builder.Build();
@@ -25,25 +46,28 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI( c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Skinet API v1");
+    });
+    using (var scope = app.Services.CreateScope())
+    {
+        var services = scope.ServiceProvider;
+        var loggerFactory = services.GetRequiredService<ILoggerFactory>();
+
+        try
+        {
+            var context = services.GetRequiredService<StoreContext>();
+            await StoreContextSeed.SeedAsync(context, loggerFactory);
+        }
+        catch (Exception ex)
+        {
+            var logger = loggerFactory.CreateLogger<Program>();
+            logger.LogError(ex, "An error occurred while seeding the database.");
+        }
+    }
 }
 // Seeding the database
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-    var loggerFactory = services.GetRequiredService<ILoggerFactory>();
-
-    try
-    {
-        var context = services.GetRequiredService<StoreContext>();
-        await StoreContextSeed.SeedAsync(context, loggerFactory);
-    }
-    catch (Exception ex)
-    {
-        var logger = loggerFactory.CreateLogger<Program>();
-        logger.LogError(ex, "An error occurred while seeding the database.");
-    }
-}
 
 //adicionando um middleware para tratar as exceptions da requisições
 app.UseMiddleware<ExceptionMiddleware>();

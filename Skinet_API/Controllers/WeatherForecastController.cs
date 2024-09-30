@@ -4,6 +4,8 @@ namespace Skinet_API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    //faz o swagger ignorar esta controller de sua execução, logo sumindo com ele
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]

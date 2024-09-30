@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Skinet_API.DTOs;
+using Skinet_API.Errors;
 using Skinet_Core.Entities;
 using Skinet_Core.Interfaces;
 using Skinet_Core.Specifications;
@@ -39,11 +40,18 @@ namespace Skinet_API.Controllers
 
         }
         [HttpGet("{Id}")]
+        //colocando aqui o tipo do endpoint e personalizando seus retornos, fazendo com que o mesmo
+        //método possa retornar tipos de obejtos diferentes
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse),StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ProductReturnDTO>> GetProductById(int Id)
         {
             var spec = new ProductsWithTypesAndBrandsSpecificatoin(Id);
             var product = await _productRepo.GetEntitiesWithSpec(spec);
-
+            if (product == null)
+            {
+                return NotFound(new ApiResponse(404));
+            }
             return _mapper.Map<Product, ProductReturnDTO>(product);
 
         }
