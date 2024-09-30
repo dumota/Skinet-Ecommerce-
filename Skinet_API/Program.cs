@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Skinet_API.Errors;
+using Skinet_API.Extensions;
 using Skinet_API.Helpers;
 using Skinet_API.Middleware;
 using Skinet_Core.Interfaces;
@@ -18,26 +19,10 @@ builder.Services.AddSwaggerGen(c=>
 {
     c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Skinet API", Version = "V1" });
 });
+builder.Services.AddAplicationServices();
 builder.Services.AddDbContext<StoreContext>(x => x.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddAutoMapper(typeof(MappingProfiles));
-builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-builder.Services.Configure<ApiBehaviorOptions>(opt =>
-{
-    opt.InvalidModelStateResponseFactory = ActionContext =>
-    {
-        var errors = ActionContext.ModelState
-        .Where(e => e.Value.Errors.Count > 0)
-        .SelectMany(x => x.Value.Errors)
-        .Select(x => x.ErrorMessage).ToArray();
 
-        var errorReposnse = new ApiValidationErroResponse
-        {
-            Errors = errors
-        };
-        return new BadRequestObjectResult(errorReposnse);
-    };
-});
 
 
 var app = builder.Build();
