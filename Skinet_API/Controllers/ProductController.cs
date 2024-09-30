@@ -32,8 +32,9 @@ namespace Skinet_API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductReturnDTO>>> Getproducts() {
-            var spec = new ProductsWithTypesAndBrandsSpecificatoin();
+        public async Task<ActionResult<IEnumerable<ProductReturnDTO>>> Getproducts(string? sort,
+            int? brandId, int? typeId) {
+            var spec = new ProductsWithTypesAndBrandsSpecificatoin(sort, brandId, typeId);
             var products = await _productRepo.ListAsync(spec);
             return Ok(_mapper
                 .Map<IEnumerable<Product>, IEnumerable<ProductReturnDTO>>(products));
