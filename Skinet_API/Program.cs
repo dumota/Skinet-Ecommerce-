@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Skinet_API.Helpers;
+using Skinet_API.Middleware;
 using Skinet_Core.Interfaces;
 using Skinet_Infrastructure.Data;
 
@@ -43,6 +44,13 @@ using (var scope = app.Services.CreateScope())
         logger.LogError(ex, "An error occurred while seeding the database.");
     }
 }
+
+//adicionando um middleware para tratar as exceptions da requisições
+app.UseMiddleware<ExceptionMiddleware>();
+//adicionando a api de erros para caso de erros do protocolo http, redirecionando para capturar estas 
+//mensagens -> MIDDLEWARE
+
+app.UseStatusCodePagesWithReExecute("/erros/{0}");
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
