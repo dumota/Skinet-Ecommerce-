@@ -1,10 +1,7 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Skinet_API.Errors;
 using Skinet_API.Extensions;
 using Skinet_API.Helpers;
 using Skinet_API.Middleware;
-using Skinet_Core.Interfaces;
 using Skinet_Infrastructure.Data;
 
 
@@ -15,11 +12,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c=>
-{
-    c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Skinet API", Version = "V1" });
-});
+
 builder.Services.AddAplicationServices();
+builder.Services.AddSwaggerDocumentations();
 builder.Services.AddDbContext<StoreContext>(x => x.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddAutoMapper(typeof(MappingProfiles));
 
@@ -30,13 +25,10 @@ var app = builder.Build();
 // Configure the HTTP request pipeline. 
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI( c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Skinet API v1");
-    });
+    
     using (var scope = app.Services.CreateScope())
     {
+        app.UseSwaggerDocumentation();
         var services = scope.ServiceProvider;
         var loggerFactory = services.GetRequiredService<ILoggerFactory>();
 
