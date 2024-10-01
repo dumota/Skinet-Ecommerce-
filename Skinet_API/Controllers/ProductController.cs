@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Skinet_API.DTOs;
 using Skinet_API.Errors;
+using Skinet_API.Helpers;
 using Skinet_Core.Entities;
 using Skinet_Core.Interfaces;
 using Skinet_Core.Specifications;
@@ -31,15 +32,32 @@ namespace Skinet_API.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductReturnDTO>>> Getproducts(string? sort,
-            int? brandId, int? typeId) {
-            var spec = new ProductsWithTypesAndBrandsSpecificatoin(sort, brandId, typeId);
-            var products = await _productRepo.ListAsync(spec);
-            return Ok(_mapper
-                .Map<IEnumerable<Product>, IEnumerable<ProductReturnDTO>>(products));
+        /*  public async Task<ActionResult<IEnumerable<ProductReturnDTO>>> Getproducts(string? sort,
+              int? brandId, int? typeId) {
+              var spec = new ProductsWithTypesAndBrandsSpecificatoin(sort, brandId, typeId);
+              var products = await _productRepo.ListAsync(spec);
+              return Ok(_mapper
+                  .Map<IEnumerable<Product>, IEnumerable<ProductReturnDTO>>(products));
 
+          }*/
+        [HttpGet]
+        public async Task<ActionResult<Pagination<ProductReturnDTO>>> GetProducts(
+            [FromQuery] ProductSpecParams productParams)
+        {
+            var spec = new ProductsWithTypesAndBrandsSpecificatoin(productParams);
+            var countSpec = new  ProductsWithFiltersForCountSpecification(productParams);
+
+            var totalItens = await _productRepo.CountAsync(countSpec);
+            var products = await _productRepo.ListAsync(spec);
+
+            var data = _mapper.Map<IEnumerable<ProductReturnDTO>>(products);
+
+            return Ok(new Pagination<ProductReturnDTO>(productParams.PageIndex,productParams.PageSize,
+                totalItens,data));
         }
+        
+
+
         [HttpGet("{Id}")]
         //colocando aqui o tipo do endpoint e personalizando seus retornos, fazendo com que o mesmo
         //método possa retornar tipos de obejtos diferentes

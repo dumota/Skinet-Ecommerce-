@@ -17,6 +17,17 @@ builder.Services.AddAplicationServices();
 builder.Services.AddSwaggerDocumentations();
 builder.Services.AddDbContext<StoreContext>(x => x.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddAutoMapper(typeof(MappingProfiles));
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin",
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:4200")
+                   .AllowAnyHeader()
+                   .AllowAnyMethod();
+        });
+});
+
 
 
 
@@ -44,6 +55,9 @@ if (app.Environment.IsDevelopment())
         }
     }
 }
+//app.UseCors("CorsPolicy");
+
+app.UseCors("AllowSpecificOrigin");
 // Seeding the database
 
 //adicionando um middleware para tratar as exceptions da requisições

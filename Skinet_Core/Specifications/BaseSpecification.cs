@@ -46,7 +46,7 @@ namespace Skinet_Core.Specifications
         {
             OrderByDesc = orderByExpressionDesc;
         }
-
+     
         protected void ApplyPaging(int skip, int take)
         {
            Skip = skip;
