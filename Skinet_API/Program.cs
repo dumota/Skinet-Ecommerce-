@@ -15,7 +15,9 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddAplicationServices();
 builder.Services.AddSwaggerDocumentations();
-builder.Services.AddDbContext<StoreContext>(x => x.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContext<StoreContext>(x => x.UseSqlite(
+    builder.Configuration.GetConnectionString("DefaultConnection")
+    ));
 builder.Services.AddAutoMapper(typeof(MappingProfiles));
 builder.Services.AddCors(options =>
 {

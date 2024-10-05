@@ -49,7 +49,7 @@ namespace Skinet_Core.Specifications
      
         protected void ApplyPaging(int skip, int take)
         {
-           Skip = skip;
+            Skip = skip;
             Take = take;
             IsPagingEnables = true;
         }

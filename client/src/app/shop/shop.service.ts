@@ -17,15 +17,15 @@ export class ShopService {
   getProducts(shopParams: ShopParams){
     //para passar parametros na url precisamos passar o valor da variavel com o nome correto "params"
     let params = new HttpParams();
-    if(shopParams.brandId){
+    if(shopParams.brandId !==0){
       params = params.append('brandId', shopParams.brandId.toString());
     }
-    if(shopParams.typeId){
+    if(shopParams.typeId !==0){
       params = params.append('typeId', shopParams.typeId.toString());
     }
-    if(shopParams.sort){
-      params = params.append('sort', shopParams.sort);
-    }
+    params = params.append('sort', shopParams.sort);
+    params = params.append('PageIndex', shopParams.pageNumber.toString())
+    params = params.append('PageSize', shopParams.pageSize.toString())
     return this.http.get<IPagination>(this.baseUrl + 'product', {
       observe: 'response',
       params

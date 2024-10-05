@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Skinet_Core.Entities;
 using System.Reflection;
 namespace Skinet_Infrastructure.Data
@@ -12,6 +13,12 @@ namespace Skinet_Infrastructure.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductBrand> ProductBrands { get; set; }
         public DbSet<ProductType> ProductTypes { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.LogTo(Console.WriteLine);
+            base.OnConfiguring(optionsBuilder);
+        }
 
         //esta função é que faz a criação da base com EF, aqui a gente coloca ele pra
         //executar nossas configs
@@ -31,6 +38,7 @@ namespace Skinet_Infrastructure.Data
                     }
                 }
             }
+
         }
     }
 }
