@@ -1,0 +1,35 @@
+a{
+    text-decoration: none;
+}
+
+.cart-shop{
+    width: 25%;
+    justify-content: space-around;
+}
+.cart-no{
+    position: absolute;
+    min-height: 25px;
+    min-width: 25px;
+    border-radius: 50%;
+    font-size: 1em;
+    background: blue;
+    color: white;
+    text-align: center;
+    top: 4px;
+    // right: 32px;
+    right: 19%;
+}
+.icon-class{
+    // background-color: red;
+    text-align: center;
+    display: inline-flex;
+}
+.shop-cart-link{
+    display: flex;
+    flex-direction: row-reverse;
+}
+.buttons-log:first-child{
+    background-color: red;
+    margin-right: 3px;
+
+}
