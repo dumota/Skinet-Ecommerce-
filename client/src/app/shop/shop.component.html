@@ -2,17 +2,20 @@
     <div class="row">
         <section class="col-3">
             <h5 class="text-warning ml-3">Sorts</h5>
-            <select class="form-select mb-3" name="" id="">
-                <option value="">Alphabetical</option>
-                <option value="">Price: Low to High</option>
-                <option value="">Proce: High to Low</option>
+            <select class="form-select mb-3" (change)="onSortSelected($event)">
+                <option *ngFor="let sort of sortOptions"
+                        [value] = "sort.value"
+                >
+                {{sort.name}}
+                </option>
+                
             </select>
 
             <h5 class="text-warning ml-3">Brands</h5>
             <ul class="list-group my-3">
                 <li class="list-group-item " aria-current="true" 
                     *ngFor="let item of brands"
-                    [class.active] = "item.id === this.brandIdSelected"
+                    [class.active] = "item.id === this.shopParams.brandId"
                     [value] = "item.id"
                     (click) ="onBrandSelected(item.id)"
                 >
@@ -24,7 +27,7 @@
             <ul class="list-group my-3">
                 <li class="list-group-item " aria-current="true" 
                     *ngFor="let item of types"
-                    [class.active] = "item.id === this.typeIdSelected"
+                    [class.active] = "item.id === this.shopParams.typeId"
                     [value] = "item.id"
                     (click) = "OnTypeSelected(item.id)"    
                 >

@@ -3,6 +3,7 @@ import { IProduct } from '../shared/Models/Iproduct';
 import { IBrand } from '../shared/Models/Ibrands';
 import { ShopService } from './shop.service';
 import { IProductType } from '../shared/Models/IproductType';
+import { ShopParams } from '../shared/Models/shopParams';
 
 @Component({
   selector: 'app-shop',
@@ -13,8 +14,15 @@ export class ShopComponent implements OnInit {
   products?: IProduct[];
   brands: IBrand[] = [];
   types: IProductType[] = [];
-  brandIdSelected?: number;
-  typeIdSelected?: number;
+  shopParams = new ShopParams();
+
+  sortOptions =[
+    {name: 'Alphabetical', value : 'name'},
+    {name: 'Price: Low to High', value : 'priceAsc'},
+    {name: 'Price: High to Low', value : 'name'}
+  ]
+
+
   constructor(private shopService: ShopService) { }
 
   ngOnInit(): void {
@@ -24,7 +32,7 @@ export class ShopComponent implements OnInit {
   }
 
   getProducts() {
-    this.shopService.getProducts(this.brandIdSelected, this.typeIdSelected).subscribe(response => {
+    this.shopService.getProducts(this.shopParams).subscribe(response => {
       this.products = response?.data;
     }, error => {
       console.log(error);
@@ -44,12 +52,18 @@ export class ShopComponent implements OnInit {
   }
 
   onBrandSelected(brandId: number) {
-    this.brandIdSelected = brandId;
+    this.shopParams.brandId = brandId;
     this.getProducts();
   }
 
   OnTypeSelected(typeId: number) {
-    this.typeIdSelected = typeId;
+    this.shopParams.typeId = typeId;
+    this.getProducts();
+  }
+
+  onSortSelected(event: Event){
+    let filterValue = (event.target as HTMLInputElement).value;
+    this.shopParams.sort = filterValue;
     this.getProducts();
   }
 
