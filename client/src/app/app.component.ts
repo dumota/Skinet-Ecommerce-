@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { IProduct } from './Models/Iproduct';
-import { IPagination } from './Models/Ipagination';
+import { IProduct } from './shared/Models/Iproduct';
+import { IPagination } from './shared/Models/Ipagination';
+
 
 //decorator que fala que este cara é um componente angular
 @Component({
@@ -11,19 +12,10 @@ import { IPagination } from './Models/Ipagination';
 })
 export class AppComponent implements OnInit{
  title:string = 'Skinet';
- products:IProduct[] = [];
 
- constructor(private http: HttpClient){}
+ constructor(){}
 
   ngOnInit(): void {
-    this.http.get('https://localhost:7092/api/Product?pageSize=50').subscribe(
-      (response: any)=>{
-      console.log(response);
-      this.products = response.data;
-      
-    }, error =>{
-      console.log(error);
-      
-    })
+   
   }
 }

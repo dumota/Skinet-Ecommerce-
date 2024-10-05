@@ -3,30 +3,30 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35027.167
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skinet_API", "Skinet_API\Skinet_API.csproj", "{E9C7FF64-ED61-4B20-A3F4-8C317AACDE1B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skinet_API", "Skinet_API\Skinet_API.csproj", "{E9C7FF64-ED61-4B20-A3F4-8C317AACDE1B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skinet_Core", "Skinet_Core\Skinet_Core.csproj", "{07E546B9-4DB1-43FC-9F82-AA5A9897DE2D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skinet_Core", "Skinet_Core\Skinet_Core.csproj", "{07E546B9-4DB1-43FC-9F82-AA5A9897DE2D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skinet_Infrastructure", "Skinet_Infrastructure\Skinet_Infrastructure.csproj", "{A67DE201-A528-4B8F-8DBB-2B014778AA68}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skinet_Infrastructure", "Skinet_Infrastructure\Skinet_Infrastructure.csproj", "{A67DE201-A528-4B8F-8DBB-2B014778AA68}"
 EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "client", "client\", "{AE310691-4AB9-41CE-A9A1-3242DEF4E683}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
-		Debug.AspNetCompiler.VirtualPath = "/localhost_64386"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_55541"
 		Debug.AspNetCompiler.PhysicalPath = "client\"
-		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_64386\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_55541\"
 		Debug.AspNetCompiler.Updateable = "true"
 		Debug.AspNetCompiler.ForceOverwrite = "true"
 		Debug.AspNetCompiler.FixedNames = "false"
 		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.VirtualPath = "/localhost_64386"
+		Release.AspNetCompiler.VirtualPath = "/localhost_55541"
 		Release.AspNetCompiler.PhysicalPath = "client\"
-		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_64386\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_55541\"
 		Release.AspNetCompiler.Updateable = "true"
 		Release.AspNetCompiler.ForceOverwrite = "true"
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "64386"
+		VWDPort = "55541"
 		SlnRelativePath = "client\"
 	EndProjectSection
 EndProject
