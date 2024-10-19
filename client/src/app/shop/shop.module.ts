@@ -2,19 +2,21 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ShopComponent } from './shop.component';
 import { ProductItemComponent } from './product-item/product-item.component';
-import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { SharedModule } from '../shared/shared.module';
+import { ProductsDetailsComponent } from './products-details/products-details.component';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
   declarations: [
     ShopComponent,
-    ProductItemComponent
+    ProductItemComponent,
+    ProductsDetailsComponent
   ],
   imports: [
     CommonModule,
-    PaginationModule,
-    SharedModule
+    SharedModule,
+    RouterModule
   ],
   exports:[
     ShopComponent
