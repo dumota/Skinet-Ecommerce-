@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ShopComponent } from './shop.component';
 import { ProductItemComponent } from './product-item/product-item.component';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -12,7 +13,8 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
   ],
   imports: [
     CommonModule,
-    PaginationModule
+    PaginationModule,
+    SharedModule
   ],
   exports:[
     ShopComponent
